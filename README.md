@@ -12,27 +12,7 @@ Tech Stack
 HTML: Markup structure for the web page.
 CSS: Styling for the interface.
 JavaScript: Game logic and DOM manipulation.
-How to Run
-Clone the repository:
-bash
-Copy code
-git clone https://github.com/your-username/tic-tac-toe.git
-Navigate to the project directory:
-bash
-Copy code
-cd tic-tac-toe
-Open the index.html file in your browser to play the game.
-Game Instructions
-Enter player names in the input fields.
-Click Start Game to begin.
-Players take turns clicking on the gameboard to place their markers (X or O).
-The game ends when:
-A player achieves a 3-in-a-row (horizontal, vertical, or diagonal), or
-The board is full, resulting in a tie.
-Use the Restart Game button to play again.
-Modules Overview
-Gameboard Module:
-Manages the gameboard state (array of cells).
+
 Player Factory:
 Creates player objects with names and markers.
 Game Controller:
