@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ultimate Tic-Tac-Toe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div id="player-setup">
-        <input type="text" id="player1" placeholder="Player 1 Name">
-        <input type="text" id="player2" placeholder="Player 2 Name">
-        <button id ="start-game">Start Game</button>
+<body class="bg-gray-800 text-white">
+    <div class="container mx-auto p-8">
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-bold text-green-400 mb-4">Ultimate Tic-Tac-Toe</h1>
+            <p class="text-lg text-gray-400">Choose your game mode!</p>
+        </div>
+
+        <div id="game-mode-setup" class="flex justify-center space-x-4 mb-8">
+            <button id="2-player" class="btn">2 Player Mode</button>
+            <button id="ai-mode" class="btn">Play with AI</button>
+        </div>
+
+        <div id="player-setup" class="flex justify-center space-x-4 mb-8 hidden">
+            <input type="text" id="player1" class="input" placeholder="Player 1 Name" />
+            <input type="text" id="player2" class="input hidden" placeholder="Player 2 Name" />
+            <button id="start-game" class="btn">Start Game</button>
+        </div>
+
+        <div id="game-container" class="text-center hidden">
+            <div id="turn" class="mb-4 text-2xl font-semibold text-gray-200"></div>
+            <div id="gameboard" class="grid grid-cols-3 gap-2 mx-auto max-w-md"></div>
+            <div id="result" class="text-xl mt-4 hidden"></div>
+            <button id="restart-game" class="btn mt-4 hidden">Restart Game</button>
+        </div>
     </div>
-    <div id="game-container">
-        <div id="turn"></div>
-        <div id="gameboard"></div>
-        <div id="result" style="visibility: hidden;"></div>
-        <button id="restart-game">Restart</button>
-    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

@@ -17,8 +17,22 @@ const GameController = (() => {
     let currentPlayerIndex = 0;
     let isGameOver = false;
 
-    const startGame = (player1, player2) => {
-        players = [Player(player1, "X"), Player(player2, "O")];
+    const startGame = () => {
+        const player1Name = document.getElementById("player1").value || "Player 1";
+        const player2Name = document.getElementById("player2").value || "AI";
+
+        if (document.getElementById("ai-mode").classList.contains("active")) {
+            players = [
+                Player(player1Name, "X"),
+                Player("AI", "O")
+            ];
+        } else {
+            players = [
+                Player(player1Name, "X"),
+                Player(player2Name, "O")
+            ];
+        }
+
         currentPlayerIndex = 0;
         isGameOver = false;
         Gameboard.resetBoard();
@@ -30,7 +44,7 @@ const GameController = (() => {
         if (isGameOver || Gameboard.getBoard()[index] !== "") return;
 
         Gameboard.setCell(index, players[currentPlayerIndex].mark);
-        DisplayController.updateCell(index, players[currentPlayerIndex].mark); // Update cell immediately.
+        DisplayController.updateCell(index, players[currentPlayerIndex].mark);
 
         if (checkWinner(players[currentPlayerIndex].mark)) {
             isGameOver = true;
@@ -41,21 +55,39 @@ const GameController = (() => {
         } else {
             currentPlayerIndex = 1 - currentPlayerIndex;
             DisplayController.updateTurn(players[currentPlayerIndex].name);
+            if (players[currentPlayerIndex].name === "AI") {
+                setTimeout(aiPlay, 500);
+            }
         }
+    };
+
+    const aiPlay = () => {
+        let availableMoves = Gameboard.getBoard().map((cell, index) => cell === "" ? index : -1).filter(index => index !== -1);
+        let randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+        playTurn(randomMove);
     };
 
     const checkWinner = (mark) => {
         const winningCombos = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-            [0, 4, 8], [2, 4, 6],           // Diagonals
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
         ];
         return winningCombos.some(combo =>
             combo.every(index => Gameboard.getBoard()[index] === mark)
         );
     };
 
-    return { startGame, playTurn };
+    const restartGame = () => {
+        Gameboard.resetBoard();
+        isGameOver = false;
+        currentPlayerIndex = 0;
+        DisplayController.renderBoard();
+        DisplayController.updateTurn(players[currentPlayerIndex].name);
+        DisplayController.hideResult();
+    };
+
+    return { startGame, playTurn, restartGame };
 })();
 
 const DisplayController = (() => {
@@ -68,7 +100,7 @@ const DisplayController = (() => {
         Gameboard.getBoard().forEach((mark, index) => {
             const cell = document.createElement("div");
             cell.className = "cell";
-            cell.textContent = mark; // Initial rendering of marks.
+            cell.textContent = mark;
             cell.addEventListener("click", () => GameController.playTurn(index));
             boardElement.appendChild(cell);
         });
@@ -76,34 +108,49 @@ const DisplayController = (() => {
 
     const updateCell = (index, mark) => {
         const cell = boardElement.children[index];
-        cell.textContent = mark; // Update the clicked cell with the player's mark.
+        cell.textContent = mark;
     };
 
     const showResult = (message) => {
         resultElement.textContent = message;
-        resultElement.style.visibility = "visible";
-    };
-    const clearResult = () => {
-        resultElement.textContent = "";
-        resultElement.style.visibility = "hidden";
-    };
-    const updateTurn = (playerName) => {
-        turnElement.textContent = `Turn: ${playerName}`;
+        resultElement.classList.remove("hidden");
+        document.getElementById("restart-game").classList.remove("hidden");
     };
 
-    return { renderBoard, updateCell, showResult, updateTurn, clearResult };
+    const hideResult = () => {
+        resultElement.classList.add("hidden");
+        document.getElementById("restart-game").classList.add("hidden");
+    };
+
+    const updateTurn = (playerName) => {
+        turnElement.textContent = `${playerName}'s Turn`;
+    };
+
+    return { renderBoard, updateCell, showResult, updateTurn, hideResult };
 })();
 
+document.getElementById("2-player").addEventListener("click", () => {
+    document.getElementById("game-mode-setup").classList.add("hidden");
+    document.getElementById("player-setup").classList.remove("hidden");
+    document.getElementById("player2").classList.remove("hidden");
+    document.getElementById("ai-mode").classList.remove("active");
+    document.getElementById("2-player").classList.add("active");
+});
+
+document.getElementById("ai-mode").addEventListener("click", () => {
+    document.getElementById("game-mode-setup").classList.add("hidden");
+    document.getElementById("player-setup").classList.remove("hidden");
+    document.getElementById("player2").classList.add("hidden");
+    document.getElementById("ai-mode").classList.add("active");
+    document.getElementById("2-player").classList.remove("active");
+});
+
 document.getElementById("start-game").addEventListener("click", () => {
-    const player1 = document.getElementById("player1").value || "Player 1";
-    const player2 = document.getElementById("player2").value || "Player 2";
-    GameController.startGame(player1, player2);
-    DisplayController.clearResult();
+    GameController.startGame();
+    document.getElementById("player-setup").classList.add("hidden");
+    document.getElementById("game-container").classList.remove("hidden");
 });
 
 document.getElementById("restart-game").addEventListener("click", () => {
-    const player1 = document.getElementById("player1").value || "Player 1";
-    const player2 = document.getElementById("player2").value || "Player 2";
-    GameController.startGame(player1, player2);
-    DisplayController.clearResult();
+    GameController.restartGame();
 });
