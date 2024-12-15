@@ -1,22 +1,17 @@
-# **Tic Tac Toe Game**
+# Tic Tac Toe
+![Preview](img/tic-tac-toe.png)
 
-A browser-based **Tic Tac Toe** game built with **HTML**, **CSS**, and **JavaScript**. This project emphasizes modular design using the module pattern and factory functions to organize code effectively.
-
----
+### 🔗 **Live preview** of the project is [here](https://alex-dishen.github.io/tic-tac-toe/).
 
 ## **Features**
-- A fully functional Tic Tac Toe game.
-- Player vs Player gameplay with customizable player names.
-- A clean, interactive interface to display the gameboard and results.
-- Restart button to reset the game.
-- Modular codebase for easy maintainability and scalability.
+* Two players mode
+* AI mode with two levels of difficulty
 
----
-
-## **Tech Stack**
-- **HTML**: Markup structure for the web page.
-- **CSS**: Styling for the interface.
-- **JavaScript**: Game logic and DOM manipulation.
-
----
-
+## **Outcome**
+* Used **HTML**
+* Used **CSS**
+* Used **JavaScript**
+* Learned how to tackle all items inside functions to free global scope
+* Improved usage of factory functions
+* Improved usage of module pattern
+* Usage of minimax algorithm
