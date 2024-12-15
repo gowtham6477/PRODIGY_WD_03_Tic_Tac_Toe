@@ -1,7 +1,9 @@
 # Tic Tac Toe
 ![Preview](img/tic-tac-toe.png)
+## **Description**
+A browser-based **Tic Tac Toe** game built with **HTML**, **CSS**, and **JavaScript**. This project emphasizes modular design using the module pattern and factory functions to organize code effectively.
 
-### 🔗 **Live preview** of the project is [here](https://alex-dishen.github.io/tic-tac-toe/).
+---
 
 ## **Features**
 * Two players mode
